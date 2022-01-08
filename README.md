@@ -6,3 +6,4 @@ Run like this :
 $ go build .
 $ sudo ./cloakopenvpnservice --cloak-host 188.166.240.175 --cloak-port 443
 ```
+Make sure you have openvpn and ck-client in PATH
