@@ -8,7 +8,7 @@ import (
 )
 
 type Service struct {
-	proc     exec.Cmd
+	proc     *exec.Cmd
 	name     string
 	args     []string
 	Running  bool
@@ -16,8 +16,10 @@ type Service struct {
 }
 
 func NewService(name string, args ...string) *Service {
+	log.Println(name)
+	log.Println(args)
 	return &Service{
-		proc:     *exec.Command(name, args...),
+		proc:     exec.Command(name, args...),
 		Running:  false,
 		name:     name,
 		args:     args,
@@ -31,13 +33,15 @@ func (s *Service) Start() error {
 		if err := s.proc.Start(); err != nil {
 			return err
 		}
+
 		go func() {
 			s.Running = true
 			s.proc.Wait()
 			s.waitChan <- true
 			log.Printf("Process %s ended\n", s.name)
 			s.Running = false
-			s = NewService(s.name, s.args...)
+			//s = NewService(s.name, s.args...)
+			s.proc = exec.Command(s.name, s.args...)
 		}()
 	} else {
 		log.Printf("Process %s already started\n", s.name)
