@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"time"
 )
 
 type Service struct {
@@ -41,6 +42,7 @@ func (s *Service) Start() error {
 	} else {
 		log.Printf("Process %s already started\n", s.name)
 	}
+	time.Sleep(time.Second * 2)
 	return nil
 }
 
