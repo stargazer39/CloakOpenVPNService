@@ -16,8 +16,6 @@ type Service struct {
 }
 
 func NewService(name string, args ...string) *Service {
-	log.Println(name)
-	log.Println(args)
 	return &Service{
 		proc:     exec.Command(name, args...),
 		Running:  false,
@@ -40,7 +38,6 @@ func (s *Service) Start() error {
 			s.waitChan <- true
 			log.Printf("Process %s ended\n", s.name)
 			s.Running = false
-			//s = NewService(s.name, s.args...)
 			s.proc = exec.Command(s.name, s.args...)
 		}()
 	} else {
